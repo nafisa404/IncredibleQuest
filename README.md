@@ -1,93 +1,78 @@
-# Image-Based Text Adventure Generator
+# 🗺️ IncredibleQuest: Image-Based AI Adventure Generator
 
-A Python application that transforms a collection of images into an interactive text adventure with branching storylines.
+> ✨ A creative Python application that transforms a collection of real-world images into an interactive, branching text adventure using AI vision and language models.
 
-## Overview
+## 🧠 Overview
 
-This tool uses AI vision and language models to:
-1. Analyze images from your collection
-2. Generate engaging story segments based on each image
-3. Create thematic connections between story segments
-4. Build an interactive adventure with multiple paths and endings
+**IncredibleQuest** is a Gen-AI storytelling engine that:
+- Analyzes landscape images using advanced AI vision models
+- Generates immersive story segments inspired by each image
+- Creates thematic connections and branching narrative paths
+- Outputs a complete markdown-based interactive storybook
 
-The result is a set of markdown files that can be viewed as an interactive story where readers can make choices that lead to different narrative branches.
+Whether you're using photos from Kerala, the Himalayas, or satellite imagery of India, this tool builds an engaging narrative world that adapts to your visual input.
 
-## Features
+## 🚀 Features
 
-- **Image Analysis**: Uses the Gemma 2 vision model to extract detailed descriptions from images
-- **Story Generation**: Creates narrative segments based on image content using Llama 3.3 language model
-- **Thematic Coherence**: Identifies common themes across all story segments and rewrites content for consistency
-- **Interactive Branching**: Automatically generates meaningful connections between story segments
-- **Customizable Style**: Supports multiple narrative styles (adventure, mystery, fantasy, sci-fi)
-- **Caching System**: Saves API responses to reduce processing time and costs on subsequent runs
-- **Markdown Output**: Generates properly formatted markdown files with navigation links
-- **Memory Management**: Processes images in batches with configurable delays to prevent memory issues
+- 🧠 **Image Understanding**: Uses `Gemma 2` vision model to extract scene descriptions.
+- ✍️ **AI Story Generation**: Uses `LLaMA 3.3` to craft narrative passages.
+- 🔗 **Story Linking**: Auto-generates multiple endings with interconnected storylines.
+- 🎨 **Genre Customization**: Switch between *adventure*, *mystery*, *fantasy*, and *sci-fi* styles.
+- 📂 **Markdown Output**: Stories are saved as interactive `.md` files with image previews and navigation.
+- 💾 **Caching System**: Saves processed results to speed up future runs.
+- ⚙️ **Memory Management**: Processes images in batches with configurable timing to prevent overload.
 
-## Requirements
+## 📦 Requirements
 
 - Python 3.6+
-- Ollama (version 0.1.16 or higher)
-- Required Python packages (see requirements.txt):
-  - ollama
-  - pathlib
-  - typing
-  - requests
-  - tqdm
-  - pillow
-  - pyyaml
+- Ollama (v0.1.16+)
 
-## Installation
-
-1. Clone this repository
-2. Install required packages:
-   ```
-   pip install -r requirements.txt
-   ```
-3. Ensure Ollama is installed and running on your system
-4. Download the required models:
-   ```
-   ollama pull gemma2:27b
-   ollama pull llama3.3:latest
-   ```
-
-## Usage
-
-### Basic Usage
-
+Install Python dependencies:
 ```bash
-python main.py
+pip install -r requirements.txt
+```
+
+Ensure Ollama is installed and running:
+```bash
+ollama run gemma2:27b
+ollama run llama3.3:latest
+```
+
+## 🖼️ Usage
+
+### 🔧 Basic Run
+```bash
+python incrediblequest.py
 ```
 
 This will:
-- Look for images in the default `input_images` directory
-- Generate stories in the `_stories` directory
+- Process all images in the `india_images/` folder  
+- Generate stories in `_stories/`  
 - Use the default "adventure" narrative style
 
-### Command Line Options
+### ⚙️ Command-Line Options
 
 ```bash
-python main.py --input INPUT_DIR --output OUTPUT_DIR --style STYLE --length WORD_COUNT --batch-size BATCH_SIZE --delay DELAY --start START_NUM --end END_NUM --config CONFIG_FILE --no-cache
+python incrediblequest.py   --input india_images   --output _stories   --style fantasy   --length 400   --batch-size 5   --delay 5   --config config/quest_config.json   --no-cache
 ```
 
-- `--input`: Directory containing images (default: "input_images")
-- `--output`: Directory for story files (default: "_stories")
-- `--style`: Narrative style - "adventure", "mystery", "fantasy", or "sci-fi" (default: "adventure")
-- `--length`: Approximate word count per story segment (default: 300)
-- `--batch-size`: Number of images to process before taking a longer break (default: 10)
-- `--delay`: Delay in seconds between processing images (default: 5)
-- `--start`: Start processing from this image number (default: 1)
-- `--end`: End processing at this image number (optional)
-- `--config`: Path to JSON configuration file
-- `--no-cache`: Disable caching of API responses
+| Option         | Description                                                  |
+|----------------|--------------------------------------------------------------|
+| `--input`      | Folder containing images (default: `input_images`)           |
+| `--output`     | Where to save stories (default: `_stories`)                  |
+| `--style`      | "adventure", "mystery", "fantasy", or "sci-fi"               |
+| `--length`     | Word count per story segment (default: 300–500)              |
+| `--batch-size` | Number of images before long pause (default: 10)             |
+| `--delay`      | Time (seconds) between images (default: 5)                   |
+| `--config`     | Load settings from a `.json` config file                     |
+| `--no-cache`   | Re-run model instead of using cached outputs                 |
 
-### Configuration File
-
-You can customize the application by creating a JSON configuration file:
+## 🔧 Configuration File Example (`config/quest_config.json`)
 
 ```json
 {
-  "input_dir": "my_images",
-  "output_dir": "my_adventure",
+  "input_dir": "india_images",
+  "output_dir": "_stories",
   "vision_model": "gemma2:27b",
   "text_model": "llama3.3:latest",
   "story_length": 500,
@@ -102,70 +87,57 @@ You can customize the application by creating a JSON configuration file:
 }
 ```
 
-## Output Structure
+## 📂 Output Structure
 
-The generator creates:
+Once complete, your story folder `_stories/` will include:
 
-1. An index.md file with:
-   - A generated title for the overall adventure
-   - A summary of themes
-   - Links to all starting points
+- `index.md`:  
+  - Auto-generated story title  
+  - Story synopsis  
+  - Links to start pages  
+- `scene_1.md`, `scene_2.md`, etc.:  
+  - Image preview  
+  - AI-generated passage  
+  - Choice links to continue the adventure  
 
-2. A markdown file for each image with:
-   - A generated title
-   - The image
-   - A story segment
-   - Links to connected story segments
+## 🧪 Example Script
 
-## Troubleshooting
-
-If you encounter issues while using the generator, please refer to the [Troubleshooting Guide](TROUBLESHOOTING.md) for solutions to common problems.
-
-## Examples
-
-### Example Script
-
-An example script `example.sh` is provided to demonstrate different ways to use the generator:
+Try running:
 
 ```bash
-# Make the script executable
-chmod +x example.sh
-
-# Run the example
-./example.sh
+chmod +x run_adventure.sh
+./run_adventure.sh
 ```
 
-The script shows how to:
-- Process a subset of images to avoid memory issues
-- Use different narrative styles
-- Customize story length
-- Use custom input and output directories
-- Use a configuration file
+It will:
+- Use sample images
+- Set style to “mystery”
+- Create a short demo adventure
 
-### Sample Configuration
+## 🎨 Customize Your Adventure
 
-A sample configuration file `sample_config.json` is provided as a template:
+You can personalize your journey by:
+- 🖼️ Changing the image set (`india_images/`, `my_vacation/`, etc.)
+- 🎭 Adjusting narrative tone (e.g., from *epic fantasy* to *ghost mystery*)
+- 🔄 Modifying prompts in the code for stylistic variations
+- 📤 Adding export options (PDF, HTML, EPUB)
 
-```bash
-# Run with the sample configuration
-python main.py --config sample_config.json
-```
+## 💡 Project Ideas
 
-### Output
+- 🇮🇳 *BharatExplorer*: Use satellite images to simulate a journey across Indian states  
+- 🏞 *EcoQuest*: Raise climate awareness by telling stories from endangered landscapes  
+- 📸 *MyPhotoAdventure*: Turn personal travel photos into a magical AI journal  
 
-After running the generator, open `_stories/index.md` to start the adventure. Each page will present a story segment with choices that lead to other segments, creating a branching narrative experience.
+## 🛠 Troubleshooting
 
-## Customization
+See [`TROUBLESHOOTING.md`](./TROUBLESHOOTING.md) for:
+- Model loading issues
+- Image formatting errors
+- Memory overflow handling
 
-- Add your own images to the input directory
-- Modify the narrative style to change the tone and genre
-- Adjust the story length to create shorter or longer segments
-- Edit the prompts in the code to customize the story generation process
+## 🙏 Acknowledgments
 
-
-## Acknowledgments
-
-This project uses:
-- Ollama for local AI model hosting
-- Gemma 2 for vision analysis
-- Llama 3.3 for text generation
+This project builds upon:
+- 🧠 [Ollama](https://ollama.com) for local LLM/vision inference
+- 👁️ Gemma 2 Vision Model for image understanding
+- ✍️ Llama 3.3 for text generation
